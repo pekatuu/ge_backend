@@ -1,4 +1,8 @@
 GeBackend::Application.routes.draw do
+  resources :resources
+
+  resources :projects
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
