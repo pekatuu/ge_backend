@@ -1,0 +1,3 @@
+[submodule "public/jQueryGantt"]
+	path = public/jQueryGantt
+	url = git@github.com:pekatuu/jQueryGantt.git
