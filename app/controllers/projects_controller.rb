@@ -64,6 +64,9 @@ class ProjectsController < ApplicationController
   def update
     @project = Project.find(params[:id])
     @project.data = params[:prj]
+    @project.lock_version = params[:lock_version]
+    last_edit_user = @project.last_edit_user
+    @project.last_edit_user = current_user.email
 
     respond_to do |format|
       if @project.update_attributes(params[:project])
@@ -74,6 +77,15 @@ class ProjectsController < ApplicationController
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
+  rescue ActiveRecord::StaleObjectError
+    render json: {
+      message: 'update conflict. please reload and save again',
+      errorMessages: [
+                      "",
+                      "	last update at: #{@project.updated_at}",
+                      "	by user: #{last_edit_user}"
+                     ]
+    }
   end
 
   # DELETE /projects/1

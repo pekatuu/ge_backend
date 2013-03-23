@@ -128,7 +128,6 @@ function loadGanttFromServer(taskId, callback) {
 
   $.getJSON("<%= @project.id %>",
             {authenticity_token:csrfToken,
-             CM:"LOADPROJECT",
              taskId:taskId},
              function(response) {
     //console.debug(response);
@@ -169,7 +168,7 @@ function saveGanttOnServer() {
     dataType:"json",
     data: {
       authenticity_token: csrfToken,
-      CM: "SVPROJECT",
+      lock_version: <%= @project.lock_version %>,
       prj: JSON.stringify(prj)
     },
     type:"PUT",
