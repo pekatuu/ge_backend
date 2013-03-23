@@ -5,26 +5,26 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>Teamwork</title>
 
-  <link rel=stylesheet href="../jQueryGantt/platform.css" type="text/css">
-  <link rel=stylesheet href="../jQueryGantt/libs/dateField/jquery.dateField.css" type="text/css">
-  <link rel=stylesheet href="../jQueryGantt/gantt.css" type="text/css">
+  <link rel=stylesheet href="/jQueryGantt/platform.css" type="text/css">
+  <link rel=stylesheet href="/jQueryGantt/libs/dateField/jquery.dateField.css" type="text/css">
+  <link rel=stylesheet href="/jQueryGantt/gantt.css" type="text/css">
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
-  <script src="../jQueryGantt/libs/jquery.livequery.min.js"></script>
-  <script src="../jQueryGantt/libs/jquery.timers.js"></script>
-  <script src="../jQueryGantt/libs/platform.js"></script>
-  <script src="../jQueryGantt/libs/date.js"></script>
-  <script src="../jQueryGantt/libs/i18nJs.js"></script>
-  <script src="../jQueryGantt/libs/dateField/jquery.dateField.js"></script>
-  <script src="../jQueryGantt/libs/JST/jquery.JST.js"></script>
+  <script src="/jQueryGantt/libs/jquery.livequery.min.js"></script>
+  <script src="/jQueryGantt/libs/jquery.timers.js"></script>
+  <script src="/jQueryGantt/libs/platform.js"></script>
+  <script src="/jQueryGantt/libs/date.js"></script>
+  <script src="/jQueryGantt/libs/i18nJs.js"></script>
+  <script src="/jQueryGantt/libs/dateField/jquery.dateField.js"></script>
+  <script src="/jQueryGantt/libs/JST/jquery.JST.js"></script>
 
-  <script src="../jQueryGantt/ganttUtilities.js"></script>
-  <script src="../jQueryGantt/ganttTask.js"></script>
-  <script src="../jQueryGantt/ganttDrawer.js"></script>
-  <script src="../jQueryGantt/ganttGridEditor.js"></script>
-  <script src="../jQueryGantt/ganttMaster.js"></script>
+  <script src="/jQueryGantt/ganttUtilities.js"></script>
+  <script src="/jQueryGantt/ganttTask.js"></script>
+  <script src="/jQueryGantt/ganttDrawer.js"></script>
+  <script src="/jQueryGantt/ganttGridEditor.js"></script>
+  <script src="/jQueryGantt/ganttMaster.js"></script>
 
 </head>
 <body style="background-color: #fff;">
@@ -89,7 +89,7 @@ $(function() {
           .append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
           .append("<button onclick='openResourceEditor();' class='button'>edit resources</button>")
           .append("<button onclick='getFile();' class='button'>export</button>");
-  $(".ganttButtonBar h1").html("<img src='../jQueryGantt/twGanttSmall.png'>");
+  $(".ganttButtonBar h1").html("<img src='/jQueryGantt/twGanttSmall.png'>");
   $(".ganttButtonBar div").addClass('buttons');
   //overwrite with localized ones
   loadI18n();
@@ -362,11 +362,12 @@ function saveInLocalStorage() {
       <th class="gdfColHeader" style="width:25px;"></th>
       <th class="gdfColHeader gdfResizable" style="width:30px;">code/short name</th>
       <th class="gdfColHeader gdfResizable" style="width:10px;"></th>
-      <th class="gdfColHeader gdfResizable" style="width:200px;">name</th>
-      <th class="gdfColHeader gdfResizable" style="width:80px;">start</th>
-      <th class="gdfColHeader gdfResizable" style="width:80px;">end</th>
-      <th class="gdfColHeader gdfResizable" style="width:50px;">dur.</th>
-      <th class="gdfColHeader gdfResizable" style="width:50px;">dep.</th>
+      <th class="gdfColHeader gdfResizable" style="width:150px;">name</th>
+      <th class="gdfColHeader gdfResizable" style="width:70px;">start</th>
+      <th class="gdfColHeader gdfResizable" style="width:70px;">end</th>
+      <th class="gdfColHeader gdfResizable" style="width:30px;">prg.</th>
+      <th class="gdfColHeader gdfResizable" style="width:30px;">dur.</th>
+      <th class="gdfColHeader gdfResizable" style="width:30px;">dep.</th>
       <th class="gdfColHeader gdfResizable" style="width:200px;">assignees</th>
     </tr>
     </thead>
@@ -384,6 +385,7 @@ function saveInLocalStorage() {
 
     <td class="gdfCell"><input type="text" name="start"  value="" class="date"></td>
     <td class="gdfCell"><input type="text" name="end" value="" class="date"></td>
+    <td class="gdfCell"><input type="text" name="progress" value="(#=obj.progress#)"></td>
     <td class="gdfCell"><input type="text" name="duration" value="(#=obj.duration#)"></td>
     <td class="gdfCell"><input type="text" name="depends" value="(#=obj.depends#)" (#=obj.hasExternalDep?"readonly":""#)></td>
     <td class="gdfCell taskAssigs">(#=obj.getAssigsString()#)</td>
@@ -394,6 +396,7 @@ function saveInLocalStorage() {
   <tr class="taskEditRow emptyRow" >
     <th class="gdfCell" align="right"></th>
     <td class="gdfCell" align="center"></td>
+    <td class="gdfCell"></td>
     <td class="gdfCell"></td>
     <td class="gdfCell"></td>
     <td class="gdfCell"></td>
