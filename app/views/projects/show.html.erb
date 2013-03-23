@@ -121,10 +121,16 @@ $(function() {
 
 function loadGanttFromServer(taskId, callback) {
   //var taskId = $("#taskSelector").val();
+  var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
   var prof = new Profiler("loadServerSide");
   prof.reset();
 
-  $.getJSON("<%= @project.id %>", {CM:"LOADPROJECT",taskId:taskId}, function(response) {
+  $.getJSON("<%= @project.id %>",
+            {authenticity_token:csrfToken,
+             CM:"LOADPROJECT",
+             taskId:taskId},
+             function(response) {
     //console.debug(response);
     if (response.ok) {
       prof.stop();
@@ -143,6 +149,8 @@ function loadGanttFromServer(taskId, callback) {
 
 
 function saveGanttOnServer() {
+  var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
   var prj = ge.saveProject();
 
   delete prj.resources;
@@ -159,7 +167,11 @@ function saveGanttOnServer() {
 
   $.ajax("<%= @project.id %>", {
     dataType:"json",
-    data: {CM:"SVPROJECT",prj:JSON.stringify(prj)},
+    data: {
+      authenticity_token: csrfToken,
+      CM: "SVPROJECT",
+      prj: JSON.stringify(prj)
+    },
     type:"PUT",
 
     success: function(response) {

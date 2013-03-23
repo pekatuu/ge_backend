@@ -1,4 +1,6 @@
 GeBackend::Application.routes.draw do
+  devise_for :users
+
   resources :resources
 
   resources :projects
