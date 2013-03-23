@@ -8,4 +8,10 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
+
+  def self.to_resoruces
+    User.all.map{|u|
+      {id: u.id, name: u.email}
+    }
+  end
 end

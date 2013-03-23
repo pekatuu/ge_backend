@@ -103,7 +103,7 @@ class ProjectsController < ApplicationController
   def successful_response(prj)
     {
       ok: :ok,
-      project: JSON.parse(prj.data)
+      project: JSON.parse(prj.data).merge(resources: User.to_resoruces)
     }
   end
 end
