@@ -3,7 +3,9 @@ GeBackend::Application.routes.draw do
 
   resources :resources
 
-  resources :projects
+  resources :projects do
+    post 'export'
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

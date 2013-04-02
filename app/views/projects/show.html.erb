@@ -68,7 +68,7 @@
   }
 </style>
 
-<form id="gimmeBack" style="display:none;" action="../gimmeBack.jsp" method="post" target="_blank"><input type="hidden" name="prj" id="gimBaPrj"></form>
+<form id="gimmeBack" style="display:none;" action="<%= @project.id%>/export" method="post" target="_blank"><input type="hidden" name="prj" id="gimBaPrj"><input type="hidden" name="authenticity_token" id="gimBaToken"></form>
 
 <script type="text/javascript">
 
@@ -85,10 +85,9 @@ $(function() {
   ge.init(workSpace);
 
   //inject some buttons (for this demo only)
-  $(".ganttButtonBar div").append("<button onclick='clearGantt();' class='button'>clear</button>")
+  $(".ganttButtonBar div")
           .append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-          .append("<button onclick='openResourceEditor();' class='button'>edit resources</button>")
-          .append("<button onclick='getFile();' class='button'>export</button>");
+          .append("<button onclick='getFile();' class='button'>export pdf</button>");
   $(".ganttButtonBar h1").html("<img src='/jQueryGantt/twGanttSmall.png'>");
   $(".ganttButtonBar div").addClass('buttons');
   //overwrite with localized ones
@@ -280,7 +279,8 @@ function openResourceEditor() {
 
 //-------------------------------------------  Get project file as JSON (used for migrate project from gantt to Teamwork) ------------------------------------------------------
 function getFile() {
-  $("#gimBaPrj").val(JSON.stringify(ge.saveProject()));
+  $("#gimBaPrj").val(JSON.stringify(ge.saveProject));
+  $("#gimBaToken").val($('meta[name="csrf-token"]').attr('content'));
   $("#gimmeBack").submit();
   $("#gimBaPrj").val("");
 
@@ -372,15 +372,14 @@ function saveInLocalStorage() {
       <th class="gdfColHeader" style="width:35px;"></th>
       <th class="gdfColHeader" style="width:25px;"></th>
       <th class="gdfColHeader gdfResizable" style="width:30px;">code/short name</th>
-      <th class="gdfColHeader gdfResizable" style="width:10px;"></th>
       <th class="gdfColHeader gdfResizable" style="width:150px;">name</th>
-      <th class="gdfColHeader gdfResizable" style="width:70px;">start</th>
-      <th class="gdfColHeader gdfResizable" style="width:70px;">end</th>
       <th class="gdfColHeader gdfResizable" style="width:30px;">prg.</th>
       <th class="gdfColHeader gdfResizable" style="width:30px;">wkl.</th>
+      <th class="gdfColHeader gdfResizable" style="width:200px;">assignees</th>
+      <th class="gdfColHeader gdfResizable" style="width:70px;">start</th>
+      <th class="gdfColHeader gdfResizable" style="width:70px;">end</th>
       <th class="gdfColHeader gdfResizable" style="width:30px;">dur.</th>
       <th class="gdfColHeader gdfResizable" style="width:30px;">dep.</th>
-      <th class="gdfColHeader gdfResizable" style="width:200px;">assignees</th>
     </tr>
     </thead>
   </table>
@@ -390,18 +389,17 @@ function saveInLocalStorage() {
   <tr taskId="(#=obj.id#)" class="taskEditRow" level="(#=level#)">
     <th class="gdfCell edit" align="right" style="cursor:pointer;"><span class="taskRowIndex">(#=obj.getRow()+1#)</span> <span class="teamworkIcon" style="font-size:12px;" >e</span></th>
     <td class="gdfCell" align="center"><div class="taskStatus cvcColorSquare" status="(#=obj.status#)"></div></td>
-    <td class="gdfCell"><input type="text" name="code" value="(#=obj.code?obj.code:''#)"></td>
     <td class="gdfCell"><span>-</span></td>
 
     <td class="gdfCell indentCell" style="padding-left:(#=obj.level*10#)px;"><input type="text" name="name" value="(#=obj.name#)" style="(#=obj.level>0?'border-left:2px dotted orange':''#)"></td>
 
-    <td class="gdfCell"><input type="text" name="start"  value="" class="date"></td>
-    <td class="gdfCell"><input type="text" name="end" value="" class="date"></td>
     <td class="gdfCell"><input type="text" name="progress" value="(#=obj.progress#)"></td>
     <td class="gdfCell"><input type="text" name="workload" value="(#=obj.workload#)"></td>
+    <td class="gdfCell taskAssigs">(#=obj.getAssigsString()#)</td>
+    <td class="gdfCell"><input type="text" name="start"  value="" class="date"></td>
+    <td class="gdfCell"><input type="text" name="end" value="" class="date"></td>
     <td class="gdfCell"><input type="text" name="duration" value="(#=obj.duration#)"></td>
     <td class="gdfCell"><input type="text" name="depends" value="(#=obj.depends#)" (#=obj.hasExternalDep?"readonly":""#)></td>
-    <td class="gdfCell taskAssigs">(#=obj.getAssigsString()#)</td>
   </tr>
   --></div>
 
@@ -409,7 +407,6 @@ function saveInLocalStorage() {
   <tr class="taskEditRow emptyRow" >
     <th class="gdfCell" align="right"></th>
     <td class="gdfCell" align="center"></td>
-    <td class="gdfCell"></td>
     <td class="gdfCell"></td>
     <td class="gdfCell"></td>
     <td class="gdfCell"></td>

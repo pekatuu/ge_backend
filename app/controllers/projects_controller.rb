@@ -1,7 +1,15 @@
 require 'json'
+require 'prj2pdf'
+
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
   
+  def export
+    @project = Project.find(params[:project_id])
+    export_path = "%s-%d.pdf"%[@project.name, @project.lock_version]
+    PDFExporter.new(@project.data, export_path)
+    send_file export_path
+  end    
 
   # GET /projects
   # GET /projects.json
